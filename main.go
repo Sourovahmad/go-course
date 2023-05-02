@@ -12,7 +12,20 @@ import (
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "text/html; charset=utf-8")
-	fmt.Fprint(w, "<h1>  welcome to contact page </h1>")
+
+	contacthtml, contact_html_error := template.ParseFiles("templates/contact.gohtml")
+	if contact_html_error != nil {
+		log.Printf("Error while parsing the contacnt html: %v\n", contact_html_error.Error())
+		http.Error(w, "error on contact html file", http.StatusInternalServerError)
+	}
+
+	executeError := contacthtml.Execute(w, nil)
+
+	if executeError != nil {
+		log.Printf("Error while executing the contacnt html: %v\n", executeError.Error())
+		http.Error(w, "error on executing html file", http.StatusInternalServerError)
+	}
+
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -35,11 +48,6 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func geturlParam(w http.ResponseWriter, r *http.Request) {
-	articleID := chi.URLParam(r, "id")
-	fmt.Fprint(w, articleID)
-}
-
 func main() {
 
 	r := chi.NewRouter()
@@ -47,7 +55,6 @@ func main() {
 
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
-	r.Get("/url/{id}", geturlParam)
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "page not found", http.StatusNotFound)
 	})
