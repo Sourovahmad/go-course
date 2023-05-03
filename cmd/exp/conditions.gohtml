@@ -1,0 +1,20 @@
+
+
+<h1>Hello iam {{ .Name }}</h1> <br>
+
+
+
+ Age:  {{ if eq .Age 45 }} yes its equal to 45  {{ end }}  <br>
+
+ <h4> Not eqal to </h4> : {{ if ne .Age 40 }} the age is not equal to 45 {{ end }}
+
+
+ <h4>using and</h4> : {{ if and (lt .Age 55) (gt .Age 40) }} The condition are true {{ end }}
+
+
+<h1>Hello my Age {{ .Age }}</h1> <br>
+
+
+
+<h1>Hello my Balance is {{ .Balance }}</h1> <br>
+<h1>Hello my category is {{ .Category.Name }}</h1> <br>
