@@ -1,28 +1,32 @@
 package main
 
 import (
-	"html/template"
-	"os"
+	"errors"
+	"fmt"
 )
 
-type User struct {
-	Name string
+func main() {
+	err := CreateOrg()
+	fmt.Println(err)
 }
 
-func main() {
-	html, templateError := template.ParseFiles("index.gohtml")
+func ConnectDb() error {
+	return errors.New("connection failed")
+}
 
-	if templateError != nil {
-		panic(templateError.Error())
+func CreateUser() error {
+	err := ConnectDb()
+	if err != nil {
+		return fmt.Errorf("creating user: %w", err)
 	}
 
-	user := User{
-		Name: "khan",
-	}
+	return nil
+}
 
-	executeError := html.Execute(os.Stdout, user)
-
-	if executeError != nil {
-		panic(executeError.Error())
+func CreateOrg() error {
+	orgError := CreateUser()
+	if orgError != nil {
+		return fmt.Errorf("org create error: %w", orgError)
 	}
+	return nil
 }

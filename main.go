@@ -14,7 +14,7 @@ import (
 func contactHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "text/html; charset=utf-8")
 
-	contacthtml, contact_html_error := template.ParseFiles("templates/contact.gohtml")
+	contacthtml, contact_html_error := template.ParseFiles("views/pages/contact.gohtml")
 	if contact_html_error != nil {
 		log.Printf("Error while parsing the contacnt html: %v\n", contact_html_error.Error())
 		http.Error(w, "error on contact html file", http.StatusInternalServerError)
