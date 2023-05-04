@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"gocourse/views"
 	"html/template"
 	"log"
 	"net/http"
@@ -30,22 +31,14 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("content-type", "text/html; charset=utf-8")
-
-	// filepath := filepath.Join("templates", "home.gohtml") // another way of parsing files
-
-	homehtml, homehtmlError := template.ParseFiles("templates/home.gohtml")
+	homehtml, homehtmlError := views.ParseTheTemplate("views/pages/home.gohtml")
 	if homehtmlError != nil {
 		log.Printf("error while parsing home.gohtml: %v", homehtmlError)
 		http.Error(w, "error while parsing home.gohtml", http.StatusInternalServerError)
 		return
 	}
 
-	templateError := homehtml.Execute(w, nil)
-
-	if templateError != nil {
-		panic(templateError.Error())
-	}
+	homehtml.Execute(w, nil)
 
 }
 
