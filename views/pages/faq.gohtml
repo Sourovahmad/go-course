@@ -1,0 +1,22 @@
+<h1> faq page</h1>
+
+
+
+
+
+<ul>    
+
+    {{ range $index, $element := . }}
+
+        {{ template "li-section" $element }}
+
+    {{ end }}
+
+</ul>
+
+
+{{ define "li-section" }}
+
+<li><b> {{ .Question }} : </b>  Answer: {{ .Answer }} </li>
+
+{{ end }}

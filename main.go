@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"gocourse/views"
+	"gocourse/controllers"
 	"html/template"
 	"log"
 	"net/http"
@@ -49,6 +50,10 @@ func main() {
 
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
+	r.Get("/faq",controllers.Faq)
+
+
+
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "page not found", http.StatusNotFound)
 	})

@@ -1,32 +1,36 @@
 package main
 
 import (
-	"errors"
-	"fmt"
+	"html/template"
+	"os"
 )
 
+type Data struct {
+	Food        []string
+	AnotherData []string
+}
+
 func main() {
-	err := CreateOrg()
-	fmt.Println(err)
-}
+	tmpl := `
+	<ul>
+		{{range $index, $element := .Food}}
+			<li>Index: {{$index}}, Food: {{$element}}, AnotherData: {{index $.AnotherData $index}}</li>
+		{{end}}
+	</ul>
+	`
 
-func ConnectDb() error {
-	return errors.New("connection failed")
-}
+	data := Data{
+		Food:        []string{"rice", "burger", "pizza"},
+		AnotherData: []string{"data1", "data2", "data3"},
+	}
 
-func CreateUser() error {
-	err := ConnectDb()
+	t, err := template.New("example").Parse(tmpl)
 	if err != nil {
-		return fmt.Errorf("creating user: %w", err)
+		panic(err)
 	}
 
-	return nil
-}
-
-func CreateOrg() error {
-	orgError := CreateUser()
-	if orgError != nil {
-		return fmt.Errorf("org create error: %w", orgError)
+	err = t.Execute(os.Stdout, data)
+	if err != nil {
+		panic(err)
 	}
-	return nil
 }
