@@ -14,7 +14,7 @@ type Template struct {
 func ParseTheTemplate(filepath string) (Template, error) {
 	parsedTemplate, parsingError := template.ParseFiles(filepath)
 	if parsingError != nil {
-		return Template{}, fmt.Errorf("parsing error on template: %w", parsingError)
+		return Template{}, fmt.Errorf("parsing error on template: %v", parsingError)
 	}
 
 	return Template{

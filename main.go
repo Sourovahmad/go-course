@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"gocourse/views"
 	"gocourse/controllers"
 	"html/template"
 	"log"
@@ -32,7 +31,8 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 
-	homehtml, homehtmlError := views.ParseTheTemplate("views/pages/home.gohtml")
+	homehtml, homehtmlError := template.ParseFiles("views/components/layouts.gohtml", "views/pages/home.gohtml")
+
 	if homehtmlError != nil {
 		log.Printf("error while parsing home.gohtml: %v", homehtmlError)
 		http.Error(w, "error while parsing home.gohtml", http.StatusInternalServerError)
@@ -50,9 +50,7 @@ func main() {
 
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
-	r.Get("/faq",controllers.Faq)
-
-
+	r.Get("/faq", controllers.Faq)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "page not found", http.StatusNotFound)
