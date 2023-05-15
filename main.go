@@ -14,7 +14,7 @@ import (
 func contactHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "text/html; charset=utf-8")
 
-	contacthtml, contact_html_error := template.ParseFiles("views/pages/contact.gohtml")
+	contacthtml, contact_html_error := template.ParseFiles("views/components/layouts.gohtml", "views/pages/contact.gohtml")
 	if contact_html_error != nil {
 		log.Printf("Error while parsing the contacnt html: %v\n", contact_html_error.Error())
 		http.Error(w, "error on contact html file", http.StatusInternalServerError)
@@ -51,6 +51,7 @@ func main() {
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
 	r.Get("/faq", controllers.Faq)
+	r.Get("/signup", controllers.SignUpGet)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "page not found", http.StatusNotFound)

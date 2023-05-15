@@ -25,7 +25,7 @@ func Faq(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	faqHtml, faqhtmlError := template.ParseFiles("views/pages/faq.gohtml")
+	faqHtml, faqhtmlError := template.ParseFiles("views/components/layouts.gohtml", "views/pages/faq.gohtml")
 
 	if faqhtmlError != nil {
 		log.Printf("Faq html rendering error: %v", faqhtmlError.Error())

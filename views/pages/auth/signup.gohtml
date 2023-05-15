@@ -1,0 +1,48 @@
+{{ define "content" }}
+
+
+<div class="py-12 flex justify-center">
+    <div class="px-8 py-8 bg-white rounded shadow">
+
+        <h1 class="px-8 pb-8 text-center text-xl font-bold text-gray-900"> Start Using Our application Today </h1>
+
+
+    <form action="/user" method="post">
+
+        <div class="py-2">
+
+            <label for="email">Email </label>
+            <input class="border border-gray-300 w-full px-3 py-2 rounded" type="text" name="email" id="email" autocomplete="email">
+        </div>
+
+
+        <div class="py-2">
+            <label for="password">Password </label>
+            <input class="border border-gray-300 w-full px-3 py-2 rounded" type="text" name="password" id="password">
+        </div>
+
+
+        <div class="flex justify-center w-100 py-4">
+            <button class="bg-blue-700 hover:bg-indigo-700 rounded text-gray-100 py-1 px-4 font-semibold" type="submit"> Sign up </button>
+        </div>
+
+
+        <div class="py-2 flex justify-between">
+
+          <p class="text-gray-600 text-xs"> Already registerd?  <a  class="underline" href="/login">login</a>  </p> 
+          <p class="text-gray-600 text-xs">
+            <a class="underline"  href="/forget-password">Forget Password? </a>
+             
+        
+        </p> 
+
+        </div>
+
+
+    </form>
+
+
+</div>
+</div>
+
+{{ end }}
