@@ -52,6 +52,7 @@ func main() {
 	r.Get("/contact", contactHandler)
 	r.Get("/faq", controllers.Faq)
 	r.Get("/signup", controllers.SignUpGet)
+	r.Post("/user-create", controllers.SignUpPost)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "page not found", http.StatusNotFound)
