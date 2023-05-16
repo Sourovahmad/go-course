@@ -1,36 +1,71 @@
 package main
 
 import (
-	"html/template"
-	"os"
+	"database/sql"
+	"fmt"
+
+	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
-type Data struct {
-	Food        []string
-	AnotherData []string
+type PostgressConfig struct {
+	Host     string
+	Port     string
+	User     string
+	Password string
+	Database string
+	SslMode  string
+}
+
+func (cfg PostgressConfig) String() string {
+	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.Database, cfg.SslMode)
 }
 
 func main() {
-	tmpl := `
-	<ul>
-		{{range $index, $element := .Food}}
-			<li>Index: {{$index}}, Food: {{$element}}, AnotherData: {{index $.AnotherData $index}}</li>
-		{{end}}
-	</ul>
-	`
 
-	data := Data{
-		Food:        []string{"rice", "burger", "pizza"},
-		AnotherData: []string{"data1", "data2", "data3"},
+	config := PostgressConfig{
+		Host:     "localhost",
+		Port:     "5432",
+		User:     "baloo",
+		Password: "junglebook",
+		Database: "postgressDb",
+		SslMode:  "disable",
 	}
 
-	t, err := template.New("example").Parse(tmpl)
+	db, err := sql.Open("pgx", config.String())
 	if err != nil {
 		panic(err)
 	}
 
-	err = t.Execute(os.Stdout, data)
+	defer db.Close()
+	err = db.Ping()
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("connected to db")
+
+	//  create tables
+
+	_, err = db.Exec(`
+	
+		CREATE TABLE IF NOT EXISTS users (
+			id SERIAL PRIMARY KEY,
+			name TEXT,
+			email TEXT UNIQUE NOT NULL
+		);
+
+		CREATE TABLE IF NOT EXISTS students (
+			id SERIAL PRIMARY KEY,
+			user_id INT NOT NULL,
+			roll INT,
+			description TEXT
+		);
+	
+	`)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("table has been created")
+
 }
