@@ -68,4 +68,34 @@ func main() {
 
 	fmt.Println("table has been created")
 
+	_, err = db.Exec(`
+		INSERT INTO users (name,email) VALUES ('sourov','sourfafssdffsdfsaov2@gmail.com');
+	`)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("data inserted into db")
+
+	// query in the database
+
+	id := 4
+
+	row := db.QueryRow(`
+	
+	SELECT name, email
+	FROM users
+
+	WHERE id=$1;`, id)
+
+	var name, email string
+
+	err = row.Scan(&name, &email)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("the name and email is", name, email)
+
 }
