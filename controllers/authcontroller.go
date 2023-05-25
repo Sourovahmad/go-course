@@ -6,6 +6,8 @@ import (
 	"net/http"
 )
 
+
+
 func SignUpGet(w http.ResponseWriter, r *http.Request) {
 	// parse the file
 
