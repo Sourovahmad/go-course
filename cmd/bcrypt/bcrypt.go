@@ -25,6 +25,9 @@ func hash(password string) {
 		fmt.Println("error hashing the password", password)
 		return
 	}
+
+
+	
 	fmt.Println(string(hasedByte))
 }
 

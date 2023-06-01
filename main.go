@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"gocourse/controllers"
+	"gocourse/models"
 	"html/template"
 	"log"
 	"net/http"
@@ -52,7 +53,27 @@ func main() {
 	r.Get("/contact", contactHandler)
 	r.Get("/faq", controllers.Faq)
 	r.Get("/signup", controllers.SignUpGet)
-	r.Post("/user-create", controllers.SignUpPost)
+
+	// Db config are setting up
+
+	config := models.DefaultPostgressConfig()
+	db, err := models.Open(config)
+
+	if err != nil {
+		fmt.Errorf("error while opening the DB : %w", err)
+	}
+
+	defer db.Close()
+
+	userService := models.UserService{
+		DB: db,
+	}
+
+	userController := controllers.Users{
+		UserService: &userService,
+	}
+
+	r.Post("/user-create", userController.SignUpPost)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "page not found", http.StatusNotFound)
