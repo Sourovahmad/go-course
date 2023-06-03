@@ -52,9 +52,10 @@ func main() {
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
 	r.Get("/faq", controllers.Faq)
-	r.Get("/signup", controllers.SignUpGet)
 
-	// Db config are setting up
+	// authentication
+	r.Get("/signup", controllers.SignUpGet)
+	r.Get("/login", controllers.LgoinGet)
 
 	config := models.DefaultPostgressConfig()
 	db, err := models.Open(config)
@@ -74,6 +75,7 @@ func main() {
 	}
 
 	r.Post("/user-create", userController.SignUpPost)
+	r.Post("/login-post", userController.LoginPost)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "page not found", http.StatusNotFound)
