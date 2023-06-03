@@ -72,6 +72,14 @@ func (u Users) LoginPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	cookies := http.Cookie{
+		Name:  "email",
+		Value: user.Email,
+		Path:  "/",
+	}
+
+	http.SetCookie(w, &cookies)
+
 	fmt.Fprintf(w, "User Authenticated :%+v", user)
 
 }
